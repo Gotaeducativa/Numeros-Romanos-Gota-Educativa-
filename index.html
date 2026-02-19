@@ -1,0 +1,1707 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Números Romanos · Premium</title>
+  <style>
+    :root{
+      --bg0:#060815;
+      --bg1:#070a1f;
+      --card: rgba(18, 22, 44, .62);
+      --card2: rgba(12, 16, 34, .58);
+      --border: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.52);
+      --shadow: 0 18px 45px rgba(0,0,0,.42);
+      --shadow2: 0 8px 22px rgba(0,0,0,.30);
+      --radius: 22px;
+
+      --violet:#b79cff;
+      --cyan:#50e3ff;
+      --green:#7ef0b0;
+
+      --ok: rgba(126,240,176,.18);
+      --ok2: rgba(126,240,176,.34);
+      --bad: rgba(255,95,130,.18);
+      --bad2: rgba(255,95,130,.34);
+      --info: rgba(80,227,255,.18);
+      --info2: rgba(80,227,255,.34);
+
+      --focus: rgba(80,227,255,.22);
+      --btnGrad: linear-gradient(90deg, rgba(183,156,255,.95), rgba(80,227,255,.95));
+      --hdrGrad: linear-gradient(90deg, rgba(183,156,255,.16), rgba(80,227,255,.12));
+      --pillGrad: linear-gradient(90deg, rgba(183,156,255,.18), rgba(80,227,255,.12));
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --ease: cubic-bezier(.2,.9,.2,1);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 18% 22%, rgba(183,156,255,.20), transparent 60%),
+        radial-gradient(900px 700px at 78% 20%, rgba(80,227,255,.16), transparent 60%),
+        radial-gradient(1100px 800px at 60% 85%, rgba(126,240,176,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg0));
+      overflow-x:hidden;
+    }
+
+    body:before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.05) 0 1px, transparent 2px),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,.04) 0 1px, transparent 2px),
+        radial-gradient(circle at 55% 75%, rgba(255,255,255,.03) 0 1px, transparent 2px);
+      opacity:.30;
+      mix-blend-mode: overlay;
+      filter: blur(.2px);
+      z-index:0;
+    }
+
+    /* ===== Tema claro ===== */
+    body[data-theme="light"]{
+      --bg0:#f5f7ff;
+      --bg1:#ffffff;
+
+      --card: rgba(255,255,255,.76);
+      --card2: rgba(255,255,255,.62);
+
+      --border: rgba(10,12,24,.10);
+      --text: rgba(10,12,24,.92);
+      --muted: rgba(10,12,24,.68);
+      --muted2: rgba(10,12,24,.52);
+
+      --shadow: 0 18px 45px rgba(10,12,24,.12);
+      --shadow2: 0 8px 22px rgba(10,12,24,.10);
+    }
+    body[data-theme="light"]{
+      background:
+        radial-gradient(1200px 800px at 18% 22%, rgba(183,156,255,.18), transparent 60%),
+        radial-gradient(900px 700px at 78% 20%, rgba(80,227,255,.12), transparent 60%),
+        radial-gradient(1100px 800px at 60% 85%, rgba(126,240,176,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg0));
+    }
+    body[data-theme="light"]:before{
+      opacity:.18;
+      mix-blend-mode: normal;
+    }
+
+    /* Always visible brand */
+    .brandmark{
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 9999;
+      padding: 8px 14px;
+      border-radius: 16px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background: rgba(18,22,44,.38);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 14px 30px rgba(0,0,0,.30);
+      pointer-events: none;
+    }
+    body[data-theme="light"] .brandmark{
+      background: rgba(255,255,255,.55);
+      border: 1px solid rgba(10,12,24,.10);
+    }
+    .brandmark img{
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      display:none;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,.35));
+      opacity:.95;
+    }
+    .brandmark .wordmark{
+      font-size: 12px;
+      letter-spacing: 1.6px;
+      font-weight: 750;
+      background: linear-gradient(90deg, rgba(183,156,255,.95), rgba(80,227,255,.95));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      white-space: nowrap;
+    }
+
+    /* layout */
+    .wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 26px 18px 40px;
+      display:grid;
+      grid-template-columns: 330px 1fr;
+      gap: 18px;
+      align-items:start;
+      position:relative;
+      z-index:1;
+    }
+
+    /* topbar mobile */
+    .topbar{
+      display:none;
+      position:sticky; top:0;
+      z-index:50;
+      padding:12px 14px;
+      background: linear-gradient(180deg, rgba(8,10,24,.92), rgba(8,10,24,.62));
+      backdrop-filter: blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    body[data-theme="light"] .topbar{
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.70));
+      border-bottom:1px solid rgba(10,12,24,.10);
+    }
+    .topbar-inner{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      max-width:1200px; margin:0 auto;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width: 0;
+    }
+    .logo{
+      width:34px;height:34px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(183,156,255,.32), rgba(80,227,255,.22));
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow2);
+      position:relative;
+      overflow:hidden;
+      display:grid; place-items:center;
+    }
+    .logo img{width:22px;height:22px;object-fit:contain;opacity:.95; display:none;}
+    .brand h1{
+      font-size:14px; margin:0;
+      letter-spacing:.2px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .brand .sub{
+      font-size:12px; color:var(--muted2);
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .btn-icon{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(18,22,44,.55);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      transition: transform .12s var(--ease), background .18s var(--ease), box-shadow .18s var(--ease);
+      box-shadow: 0 8px 18px rgba(0,0,0,.25);
+    }
+    body[data-theme="light"] .btn-icon{
+      background: rgba(255,255,255,.62);
+      border:1px solid rgba(10,12,24,.10);
+      box-shadow: 0 8px 18px rgba(10,12,24,.10);
+    }
+    .btn-icon:hover{transform: translateY(-1px); background: rgba(18,22,44,.70)}
+    body[data-theme="light"] .btn-icon:hover{background: rgba(255,255,255,.82)}
+    .btn-icon:active{transform: translateY(0px) scale(.99)}
+    .btn-icon:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+
+    /* cards */
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      overflow:hidden;
+    }
+    .card .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: var(--hdrGrad);
+    }
+    body[data-theme="light"] .card .hdr{
+      border-bottom: 1px solid rgba(10,12,24,.10);
+    }
+    .card .hdr h2{
+      margin:0;
+      font-size: 14px;
+      letter-spacing: .2px;
+      display:flex; align-items:center; gap:8px;
+    }
+    .card .hdr p{
+      margin:8px 0 0;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+    .card .body{ padding: 14px 16px 16px; }
+
+    .sidebar{
+      position:sticky; top:18px;
+      display:flex; flex-direction:column; gap: 14px;
+      min-height: calc(100vh - 36px);
+    }
+
+    /* pills */
+    .pills{ display:flex; flex-wrap:wrap; gap:10px; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+      user-select:none;
+    }
+    body[data-theme="light"] .pill{
+      background: rgba(10,12,24,.04);
+      border:1px solid rgba(10,12,24,.10);
+      box-shadow: 0 10px 20px rgba(10,12,24,.08);
+    }
+    .pill strong{ font-family: var(--mono); letter-spacing:.2px; font-size: 12.5px; }
+    .pill span{ font-size: 12.5px; color: var(--muted); }
+    .pill.glow{ background: var(--pillGrad); border-color: rgba(183,156,255,.18); }
+
+    /* toggles */
+    .tog{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    body[data-theme="light"] .tog{
+      background: rgba(10,12,24,.03);
+      border:1px solid rgba(10,12,24,.10);
+    }
+    .tog .meta{ display:flex; flex-direction:column; gap:2px; min-width: 0; }
+    .tog .meta b{ font-size: 13px; font-weight: 650; }
+    .tog .meta small{ font-size: 12px; color: var(--muted2); line-height: 1.25; }
+
+    .switch{
+      width: 52px; height: 30px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      position:relative;
+      cursor:pointer;
+      flex: 0 0 auto;
+      transition: background .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease);
+      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+    }
+    body[data-theme="light"] .switch{
+      background: rgba(10,12,24,.08);
+      border:1px solid rgba(10,12,24,.12);
+      box-shadow: 0 10px 22px rgba(10,12,24,.10);
+    }
+    .switch:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+    .knob{
+      position:absolute; top:50%; left:4px;
+      width: 22px; height: 22px;
+      border-radius: 999px;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,.90);
+      transition: left .18s var(--ease);
+      box-shadow: 0 10px 18px rgba(0,0,0,.25);
+    }
+    body[data-theme="light"] .knob{
+      background: rgba(10,12,24,.92);
+      box-shadow: 0 10px 18px rgba(10,12,24,.12);
+    }
+    .switch.on{
+      background: rgba(80,227,255,.18);
+      border-color: rgba(80,227,255,.30);
+      box-shadow: 0 12px 26px rgba(80,227,255,.10);
+    }
+    .switch.on .knob{left: 26px;}
+
+    /* main */
+    .main{ display:flex; flex-direction:column; gap: 14px; min-width: 0; }
+    .hero{
+      padding: 18px 18px 16px;
+      display:flex; flex-wrap:wrap;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 14px;
+    }
+    .hero h1{ margin:0; font-size: 18px; letter-spacing:.2px; }
+    .hero p{
+      margin:6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+      max-width: 60ch;
+    }
+    .hero .right{
+      display:flex; flex-direction:column; align-items:flex-end; gap:10px;
+      min-width: 220px;
+    }
+
+    .bar{
+      width: 240px; max-width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,.35);
+    }
+    body[data-theme="light"] .bar{
+      background: rgba(10,12,24,.06);
+      border:1px solid rgba(10,12,24,.10);
+      box-shadow: inset 0 2px 10px rgba(10,12,24,.10);
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width:0%;
+      background: var(--btnGrad);
+      transition: width .35s var(--ease);
+    }
+
+    /* tabs */
+    .tabs{ display:flex; gap:10px; flex-wrap:wrap; }
+    .tab{
+      padding: 10px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(18,22,44,.45);
+      cursor:pointer;
+      color: var(--muted);
+      transition: transform .12s var(--ease), background .18s var(--ease), border-color .18s var(--ease);
+      user-select:none;
+    }
+    body[data-theme="light"] .tab{
+      background: rgba(255,255,255,.70);
+      border:1px solid rgba(10,12,24,.10);
+    }
+    .tab:hover{transform: translateY(-1px); background: rgba(18,22,44,.62)}
+    body[data-theme="light"] .tab:hover{background: rgba(255,255,255,.90)}
+    .tab.active{
+      color: var(--text);
+      background: rgba(80,227,255,.12);
+      border-color: rgba(80,227,255,.24);
+      box-shadow: 0 14px 30px rgba(0,0,0,.25);
+    }
+    body[data-theme="light"] .tab.active{
+      box-shadow: 0 14px 30px rgba(10,12,24,.10);
+    }
+
+    /* task */
+    .task{ padding: 16px; display:grid; grid-template-columns: 1fr; gap: 14px; }
+    .task .prompt{
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      padding: 14px 14px;
+    }
+    body[data-theme="light"] .task .prompt{
+      background: rgba(10,12,24,.03);
+      border:1px solid rgba(10,12,24,.10);
+    }
+    .kicker{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 0 0 8px;
+      letter-spacing:.2px;
+    }
+    .big{
+      margin:0;
+      font-size: 28px;
+      letter-spacing:.6px;
+      font-family: var(--mono);
+    }
+    .big .soft{
+      color: rgba(255,255,255,.78);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing:.2px;
+      margin-left: 8px;
+      font-family: var(--sans);
+    }
+    body[data-theme="light"] .big .soft{ color: rgba(10,12,24,.72); }
+
+    .inputs{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .field{ display:flex; flex-direction:column; gap:8px; min-width: 0; }
+    label{ font-size: 12.5px; color: var(--muted); }
+    .input{
+      height: 46px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(7,10,24,.55);
+      color: var(--text);
+      padding: 0 12px;
+      outline:none;
+      transition: border-color .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease);
+      font-family: var(--mono);
+      letter-spacing:.4px;
+    }
+    body[data-theme="light"] .input{
+      background: rgba(255,255,255,.70);
+      border:1px solid rgba(10,12,24,.12);
+      color: rgba(10,12,24,.92);
+    }
+    .input::placeholder{color: rgba(255,255,255,.35); font-family: var(--sans); letter-spacing:.2px}
+    body[data-theme="light"] .input::placeholder{color: rgba(10,12,24,.35)}
+    .input:focus{
+      border-color: rgba(80,227,255,.30);
+      box-shadow: 0 0 0 4px rgba(80,227,255,.10);
+      background: rgba(7,10,24,.70);
+    }
+    body[data-theme="light"] .input:focus{
+      background: rgba(255,255,255,.92);
+    }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .btn{
+      height: 46px;
+      padding: 0 14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      cursor:pointer;
+      transition: transform .12s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease), opacity .18s var(--ease);
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      user-select:none;
+      min-width: 140px;
+    }
+    .btn.primary{
+      background: var(--btnGrad);
+      color: rgba(8,10,24,.95);
+      border-color: rgba(255,255,255,.10);
+      box-shadow: 0 16px 34px rgba(0,0,0,.30);
+      font-weight: 800;
+    }
+    .btn.primary:hover{transform: translateY(-1px); box-shadow: 0 18px 40px rgba(0,0,0,.34)}
+    .btn.secondary{
+      background: rgba(18,22,44,.40);
+      color: var(--text);
+    }
+    body[data-theme="light"] .btn.secondary{
+      background: rgba(255,255,255,.70);
+      border:1px solid rgba(10,12,24,.12);
+    }
+    .btn.secondary:hover{transform: translateY(-1px); background: rgba(18,22,44,.58)}
+    body[data-theme="light"] .btn.secondary:hover{background: rgba(255,255,255,.92)}
+    .btn.ghost{
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+    }
+    body[data-theme="light"] .btn.ghost{
+      background: rgba(10,12,24,.03);
+      border:1px solid rgba(10,12,24,.10);
+    }
+    .btn.ghost:hover{transform: translateY(-1px); background: rgba(255,255,255,.08)}
+    body[data-theme="light"] .btn.ghost:hover{background: rgba(10,12,24,.06)}
+    .btn:active{transform: translateY(0px) scale(.99)}
+    .btn:disabled{ cursor:not-allowed; opacity:.45; transform:none !important; box-shadow:none !important; }
+
+    /* feedback */
+    .toast{
+      display:flex; gap:12px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(7,10,24,.55);
+      align-items:flex-start;
+      box-shadow: 0 16px 40px rgba(0,0,0,.28);
+      animation: pop .22s var(--ease);
+    }
+    body[data-theme="light"] .toast{
+      background: rgba(255,255,255,.72);
+      border:1px solid rgba(10,12,24,.10);
+      box-shadow: 0 16px 40px rgba(10,12,24,.10);
+    }
+    @keyframes pop{ from{transform: translateY(6px); opacity:0} to{transform: translateY(0); opacity:1} }
+    .toast .ico{
+      width: 34px; height: 34px; border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      flex:0 0 auto;
+      font-size: 16px;
+    }
+    body[data-theme="light"] .toast .ico{
+      background: rgba(10,12,24,.04);
+      border:1px solid rgba(10,12,24,.10);
+    }
+    .toast .txt{ display:flex; flex-direction:column; gap:4px; min-width: 0; }
+    .toast .txt b{ font-size: 13.5px; }
+    .toast .txt p{ margin:0; font-size: 12.5px; color: var(--muted); line-height: 1.35; }
+    .toast.ok{border-color: var(--ok2); background: var(--ok)}
+    .toast.bad{border-color: var(--bad2); background: var(--bad)}
+    .toast.info{border-color: var(--info2); background: var(--info)}
+    body[data-theme="light"] .toast.ok{ background: rgba(126,240,176,.18); }
+    body[data-theme="light"] .toast.bad{ background: rgba(255,95,130,.16); }
+    body[data-theme="light"] .toast.info{ background: rgba(80,227,255,.14); }
+    .stack{display:flex; flex-direction:column; gap:10px}
+
+    /* roman values helper */
+    .valuesGrid{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+    .valChip{
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      padding:10px 10px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+    }
+    body[data-theme="light"] .valChip{
+      background: rgba(10,12,24,.03);
+      border:1px solid rgba(10,12,24,.10);
+    }
+    .valChip .sym{
+      font-family: var(--mono);
+      font-size: 16px;
+      letter-spacing:.6px;
+    }
+    .valChip .num{
+      font-family: var(--mono);
+      font-size: 13px;
+      color: rgba(255,255,255,.78);
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    body[data-theme="light"] .valChip .num{
+      color: rgba(10,12,24,.78);
+      background: rgba(10,12,24,.04);
+      border:1px solid rgba(10,12,24,.10);
+    }
+
+    .mini{
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius: 18px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+    body[data-theme="light"] .mini{
+      background: rgba(10,12,24,.03);
+      border:1px solid rgba(10,12,24,.10);
+    }
+    .mini h3{ margin:0 0 8px; font-size: 13px; letter-spacing:.2px; }
+    .mini ul{ margin:0; padding-left: 18px; color: var(--muted); font-size: 12.5px; line-height: 1.35; }
+    .mini code{
+      font-family: var(--mono);
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      padding: 2px 6px;
+      border-radius: 10px;
+      color: rgba(255,255,255,.86);
+    }
+    body[data-theme="light"] .mini code{
+      background: rgba(10,12,24,.04);
+      border:1px solid rgba(10,12,24,.10);
+      color: rgba(10,12,24,.86);
+    }
+
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;}
+    .smallnote{font-size:12px; color: var(--muted2);}
+
+    /* Social links */
+    .links{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:center;
+    }
+    .linkBtn{
+      width: 100%;
+      max-width: 340px;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color: var(--text);
+      transition: transform .12s var(--ease), background .18s var(--ease);
+    }
+    body[data-theme="light"] .linkBtn{
+      background: rgba(255,255,255,.70);
+      border:1px solid rgba(10,12,24,.10);
+    }
+    .linkBtn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
+    body[data-theme="light"] .linkBtn:hover{background: rgba(255,255,255,.92)}
+    .tag{
+      font-size:12px;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+    }
+    body[data-theme="light"] .tag{
+      background: rgba(10,12,24,.04);
+      border:1px solid rgba(10,12,24,.10);
+    }
+
+    /* mobile settings sheet */
+    .sheet{
+      display:none;
+      position:fixed; inset:0;
+      z-index: 10000;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      padding: 14px;
+    }
+    .sheet .panel{
+      height: calc(100vh - 28px);
+      max-width: 520px;
+      margin-left:auto;
+      border-radius: 26px;
+    }
+    .sheet.show{display:block}
+    .closeRow{
+      display:flex; justify-content:space-between; align-items:center; gap:12px;
+      padding: 14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: var(--hdrGrad);
+    }
+    body[data-theme="light"] .closeRow{
+      border-bottom:1px solid rgba(10,12,24,.10);
+    }
+    .closeRow b{font-size:14px}
+
+    @media (max-width: 980px){
+      .wrap{grid-template-columns: 1fr; padding-top: 16px}
+      .sidebar{display:none}
+      .topbar{display:block}
+      .hero .right{align-items:flex-start}
+      .inputs{grid-template-columns: 1fr}
+      .btn{min-width: 0; flex:1 1 160px}
+      .valuesGrid{grid-template-columns: repeat(3,1fr);}
+    }
+    @media (max-width: 420px){
+      .brandmark{ top:10px; left:10px; padding:7px 12px; border-radius:15px; }
+      .valuesGrid{grid-template-columns: repeat(2,1fr);}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important; animation:none !important; scroll-behavior:auto !important}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="brandmark" aria-hidden="true" title="Gota Educativa">
+    <img id="brandImg" alt="">
+    <span class="wordmark">GOTA EDUCATIVA</span>
+  </div>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <img id="topLogo" alt="">
+        </div>
+        <div style="min-width:0">
+          <h1>Números Romanos</h1>
+          <div class="sub">Calma · claridad · motivación</div>
+        </div>
+      </div>
+      <button class="btn-icon" id="openSettings" aria-label="Abrir panel de opciones">⚙️</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <aside class="sidebar">
+      <div class="card">
+        <div class="hdr">
+          <h2>⚙️ Panel de opciones</h2>
+          <p>Activa ayudas. Todo en bloques cortos y ordenados.</p>
+        </div>
+        <div class="body">
+
+          <div style="margin-bottom:16px; display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <label style="font-size:13px; color: var(--muted);">👤 Nombre del alumno</label>
+            <input id="studentName" type="text" placeholder="Escribe tu nombre"
+              style="width:260px; max-width:100%; height:42px; border-radius:14px; border:1px solid rgba(255,255,255,.12);
+                     background: rgba(0,0,0,.25); color:var(--text); padding:0 12px; text-align:center; font-size:15px;">
+          </div>
+
+          <div style="display:flex; justify-content:center; margin-top:10px;">
+            <button class="btn primary" id="downloadPdfBtn" type="button" style="min-width:220px;">
+              📄 Descargar informe (PDF)
+            </button>
+          </div>
+
+          <div class="stack" id="settingsStack" style="margin-top:14px;"></div>
+
+          <div class="mini">
+            <h3>Reglas rápidas</h3>
+            <ul>
+              <li>Antes de grande: <b>resta</b> (<code>IV</code>, <code>IX</code>, <code>XL</code>, <code>XC</code>, <code>CD</code>, <code>CM</code>)</li>
+              <li><code>V</code>, <code>L</code>, <code>D</code> no se repiten.</li>
+              <li><code>I</code>, <code>X</code>, <code>C</code>, <code>M</code> máximo 3 seguidas.</li>
+            </ul>
+          </div>
+
+          <div style="height:12px"></div>
+          <div class="row">
+            <button class="btn secondary" id="resetAll">Reiniciar progreso</button>
+            <div class="smallnote">Guardado local activo</div>
+          </div>
+
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="card">
+        <div class="hero">
+          <div>
+            <h1>Entrena números romanos con calma</h1>
+            <p>Responde, recibe feedback claro y sube de nivel. Puedes activar “Mostrar valores” para recordar I, V, X…</p>
+          </div>
+          <div class="right">
+            <div class="pills">
+              <div class="pill glow"><span>⭐ Puntos</span> <strong id="pts">0</strong></div>
+              <div class="pill"><span>🏁 Nivel</span> <strong id="lvl">1</strong></div>
+              <div class="pill"><span>🔥 Racha</span> <strong id="streak">0</strong></div>
+            </div>
+            <div class="bar"><i id="barFill"></i></div>
+            <div class="smallnote" id="progressText">0 / 8 para subir de nivel</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hdr">
+          <h2>🎮 Modos de práctica</h2>
+          <p>Elige un modo. Todo está pensado para ser claro y sin saturación.</p>
+        </div>
+        <div class="body">
+          <div class="tabs" role="tablist" aria-label="Modos">
+            <div class="tab active" role="tab" tabindex="0" data-mode="a2r">Árabe → Romano</div>
+            <div class="tab" role="tab" tabindex="0" data-mode="r2a">Romano → Árabe</div>
+            <div class="tab" role="tab" tabindex="0" data-mode="test">Test (4 opciones)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hdr">
+          <h2>🧩 Reto actual</h2>
+          <p id="taskHint">Responde y pulsa comprobar. Puedes activar pistas y valores en opciones.</p>
+        </div>
+        <div class="task" id="taskArea"></div>
+      </div>
+
+      <div class="card">
+        <div class="hdr">
+          <h2 style="text-align:center;">🌐 YouTube e Instagram @GotaEducativa</h2>
+        </div>
+        <div class="body">
+          <div class="mini">
+            <h3>🌐 Sígueme</h3>
+            <div class="links">
+              <a class="linkBtn" href="https://www.youtube.com/@GotaEducativa" target="_blank" rel="noopener">
+                ▶️ YouTube <span class="tag">@gotaeducativa</span>
+              </a>
+              <a class="linkBtn" href="https://www.instagram.com/gotaeducativa/" target="_blank" rel="noopener">
+                📷 Instagram <span class="tag">@gotaeducativa</span>
+              </a>
+            </div>
+            <div class="smallnote" style="margin-top:8px; text-align:center;">Se abre en una pestaña nueva.</div>
+          </div>
+
+          <div class="stack" id="feedbackStack"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="sheet" id="sheet" aria-hidden="true">
+    <div class="card panel">
+      <div class="closeRow">
+        <b>⚙️ Opciones</b>
+        <button class="btn-icon" id="closeSettings" aria-label="Cerrar panel">✕</button>
+      </div>
+      <div class="body" style="padding:14px 16px 16px">
+        <div class="stack" id="settingsStackMobile"></div>
+        <div style="height:12px"></div>
+        <div class="row">
+          <button class="btn secondary" id="resetAllMobile">Reiniciar progreso</button>
+          <div class="smallnote">Guardado local activo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(() => {
+  "use strict";
+
+  // Logo attempt (optional) — text always visible
+  const REMOTE_LOGO = "https://i.ibb.co/JWvtY8sr/an-illustration-of-a-drop-of-water-with-fios-W3-R9-SBSsx6-KUq3coxw-UMYv0-T5f-Tfq-E5-ISNf-Er-L2-A-rem.png";
+  const brandImg = document.getElementById("brandImg");
+  const topLogo = document.getElementById("topLogo");
+  function tryLoad(imgEl){
+    if(!imgEl) return;
+    imgEl.src = REMOTE_LOGO;
+    imgEl.onload = ()=>{ imgEl.style.display = "block"; };
+    imgEl.onerror = ()=>{ imgEl.style.display = "none"; };
+  }
+  tryLoad(brandImg);
+  tryLoad(topLogo);
+
+  // Guardar nombre del alumno
+  const nameInput = document.getElementById("studentName");
+  if (nameInput){
+    const savedName = localStorage.getItem("studentName") || "";
+    if (savedName) nameInput.value = savedName;
+    nameInput.addEventListener("input", ()=> localStorage.setItem("studentName", nameInput.value));
+  }
+
+  // ---------- Storage ----------
+  const KEY = "roman_premium_wordmark_v2";
+  const now = () => new Date().toISOString();
+  const clamp = (n,min,max)=>Math.max(min,Math.min(max,n));
+  const shuffle = (a) => {
+    const arr = a.slice();
+    for(let i=arr.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  };
+
+  const defaultState = {
+    points: 0,
+    level: 1,
+    streak: 0,
+    correctTowardLevel: 0,
+    perLevelGoal: 8,
+    mode: "a2r",
+    lastTask: null,
+    settings: {
+      theme: "dark",          // ✅ nuevo
+      hints: true,
+      strictRoman: true,
+      autoNext: true,
+      gentleMessages: true,
+      showValues: true,
+      range: "Auto"
+    },
+    updatedAt: now()
+  };
+
+  let state = loadState();
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(!raw) return structuredClone(defaultState);
+      const s = JSON.parse(raw);
+      return {
+        ...structuredClone(defaultState),
+        ...s,
+        settings: {...structuredClone(defaultState.settings), ...(s.settings||{})}
+      };
+    }catch{
+      return structuredClone(defaultState);
+    }
+  }
+  function saveState(){
+    state.updatedAt = now();
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
+
+  function applyTheme(){
+    const t = (state?.settings?.theme || "dark");
+    document.body.setAttribute("data-theme", (t === "light") ? "light" : "dark");
+  }
+
+  // ---------- Roman conversion ----------
+  const romanMap = [
+    ["M",1000],["CM",900],["D",500],["CD",400],
+    ["C",100],["XC",90],["L",50],["XL",40],
+    ["X",10],["IX",9],["V",5],["IV",4],["I",1]
+  ];
+
+  function toRoman(num){
+    if(!Number.isInteger(num) || num<=0 || num>3999) return null;
+    let n=num, out="";
+    for(const [sym,val] of romanMap){
+      while(n>=val){ out+=sym; n-=val; }
+    }
+    return out;
+  }
+
+  function fromRoman(str, strict=true){
+    if(typeof str!=="string") return null;
+    const s = str.trim().toUpperCase();
+    if(!s) return null;
+    if(!/^[IVXLCDM]+$/.test(s)) return null;
+
+    const values = {I:1,V:5,X:10,L:50,C:100,D:500,M:1000};
+    let total=0;
+    for(let i=0;i<s.length;i++){
+      const v = values[s[i]];
+      const next = values[s[i+1]] || 0;
+      if(next>v) total -= v;
+      else total += v;
+    }
+    if(strict){
+      const canon = toRoman(total);
+      if(!canon || canon !== s) return null;
+    }
+    if(total<=0 || total>3999) return null;
+    return total;
+  }
+
+  // ---------- difficulty / range ----------
+  function levelRange(lvl){
+    if(lvl<=2) return [1, 30];
+    if(lvl<=4) return [1, 60];
+    if(lvl<=6) return [10, 120];
+    if(lvl<=8) return [30, 200];
+    if(lvl<=10) return [60, 399];
+    if(lvl<=12) return [100, 999];
+    return [200, 1999];
+  }
+
+  function parseRangeLabel(label){
+    if(label==="Auto") return null;
+    const m = String(label).match(/^(\d+)\s*-\s*(\d+)$/);
+    if(!m) return null;
+    const a = parseInt(m[1],10), b = parseInt(m[2],10);
+    if(!Number.isFinite(a)||!Number.isFinite(b)||a<1||b<1||a>b) return null;
+    return [a, b];
+  }
+
+  function getActiveRange(){
+    const custom = parseRangeLabel(state.settings.range);
+    if(custom) return custom;
+    return levelRange(state.level);
+  }
+
+  function makeTask(){
+    const [min,max] = getActiveRange();
+    const n = Math.floor(Math.random()*(max-min+1))+min;
+    const roman = toRoman(n);
+
+    if(state.mode==="a2r") return {kind:"a2r", n, roman, createdAt: now()};
+    if(state.mode==="r2a") return {kind:"r2a", n, roman, createdAt: now()};
+
+    const sub = Math.random()<0.5 ? "a2r" : "r2a";
+    const deltas = shuffle([1,2,3,4,5,6,7,8,9,10,11,12,15,18,20]).slice(0,8);
+    const options = new Set([n]);
+    for(const d of deltas){
+      const sign = Math.random()<0.5 ? -1 : 1;
+      options.add(clamp(n + sign*d, min, max));
+      if(options.size>=4) break;
+    }
+    const nums = shuffle([...options]).slice(0,4);
+    return {kind:"test", sub, n, roman, options: nums, createdAt: now()};
+  }
+
+  // ---------- UI ----------
+  const $ = (sel, root=document)=>root.querySelector(sel);
+  const $$ = (sel, root=document)=>[...root.querySelectorAll(sel)];
+
+  const ptsEl = $("#pts");
+  const lvlEl = $("#lvl");
+  const streakEl = $("#streak");
+  const barFill = $("#barFill");
+  const progressText = $("#progressText");
+  const feedbackStack = $("#feedbackStack");
+  const taskArea = $("#taskArea");
+  const taskHint = $("#taskHint");
+
+  function escapeHtml(s){
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function announce(type, title, msg){
+    const ico = type==="ok" ? "✅" : type==="bad" ? "⛔" : "ℹ️";
+    const div = document.createElement("div");
+    div.className = `toast ${type}`;
+    div.innerHTML = `
+      <div class="ico" aria-hidden="true">${ico}</div>
+      <div class="txt">
+        <b>${escapeHtml(title)}</b>
+        <p>${escapeHtml(msg)}</p>
+      </div>
+    `;
+    feedbackStack.prepend(div);
+    const keep = state.settings.gentleMessages ? 3 : 5;
+    while(feedbackStack.children.length > keep){
+      feedbackStack.removeChild(feedbackStack.lastChild);
+    }
+  }
+
+  function updateHeader(){
+    ptsEl.textContent = String(state.points);
+    lvlEl.textContent = String(state.level);
+    streakEl.textContent = String(state.streak);
+
+    const goal = state.perLevelGoal;
+    const cur = state.correctTowardLevel;
+    const pct = clamp((cur/goal)*100, 0, 100);
+    barFill.style.width = pct.toFixed(1) + "%";
+    progressText.textContent = `${cur} / ${goal} para subir de nivel`;
+  }
+
+  function onCorrect(){
+    state.streak += 1;
+    state.correctTowardLevel += 1;
+
+    const streakBonus = clamp(state.streak-1, 0, 10);
+    const lvlBonus = clamp(Math.floor((state.level-1)/2), 0, 8);
+    state.points += (10 + streakBonus*2 + lvlBonus);
+
+    if(state.correctTowardLevel >= state.perLevelGoal){
+      state.level += 1;
+      state.correctTowardLevel = 0;
+      state.perLevelGoal = clamp(8 + Math.floor((state.level-1)/3), 8, 14);
+      announce("ok", "¡Nivel subido!", `Ahora estás en el nivel ${state.level}.`);
+    }
+
+    saveState();
+    updateHeader();
+  }
+
+  function onWrong(){
+    state.streak = 0;
+    state.points = Math.max(0, state.points - 2);
+    saveState();
+    updateHeader();
+  }
+
+  // ---------- Registro de respuestas ----------
+  const ATTEMPTS_KEY = "roman_attempts_v1";
+  let attempts = [];
+  try {
+    attempts = JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || "[]");
+    if (!Array.isArray(attempts)) attempts = [];
+  } catch { attempts = []; }
+
+  function getStudentName(){
+    const el = document.getElementById("studentName");
+    const name = (el?.value || "").trim();
+    return name || "Sin nombre";
+  }
+
+  function saveAttempts(){
+    localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attempts));
+  }
+
+  function logAttempt(entry){
+    attempts.push(entry);
+    if (attempts.length > 500) attempts = attempts.slice(attempts.length - 500);
+    saveAttempts();
+  }
+
+  // ---------- Settings UI ----------
+  const settingsSchema = [
+    { key:"themeLight", title:"Modo claro", desc:"Fondo claro y texto oscuro (ideal con mucha luz)." },
+    { key:"showValues", title:"Mostrar valores", desc:"Muestra I=1, V=5, X=10... como apoyo visual." },
+    { key:"hints", title:"Pistas breves", desc:"Muestra una ayuda corta bajo el reto." },
+    { key:"strictRoman", title:"Validación estricta", desc:"Solo acepta romanos correctos (IV, no IIII)." },
+    { key:"autoNext", title:"Siguiente automático", desc:"Tras acertar, pasa al siguiente reto." },
+    { key:"gentleMessages", title:"Mensajes mínimos", desc:"Menos mensajes para evitar sobrecarga." }
+  ];
+
+  function renderSettings(into){
+    into.innerHTML = "";
+
+    // Range selector
+    const rangeRow = document.createElement("div");
+    rangeRow.className = "tog";
+    rangeRow.innerHTML = `
+      <div class="meta">
+        <b>Rango de números</b>
+        <small>Auto sube con el nivel, o fija un rango.</small>
+      </div>
+      <select class="input" id="rangeSel" style="height:40px; border-radius:14px; padding:0 10px; font-family: var(--sans); letter-spacing:.2px">
+        <option value="Auto">Auto (por nivel)</option>
+        <option value="1-20">1-20</option>
+        <option value="1-50">1-50</option>
+        <option value="1-100">1-100</option>
+        <option value="50-200">50-200</option>
+        <option value="100-399">100-399</option>
+        <option value="100-999">100-999</option>
+      </select>
+    `;
+    into.appendChild(rangeRow);
+    const sel = $("#rangeSel", rangeRow);
+    sel.value = state.settings.range;
+    sel.addEventListener("change", ()=>{
+      state.settings.range = sel.value;
+      state.lastTask = makeTask();
+      saveState();
+      renderTask();
+      announce("info", "Rango actualizado", `Rango activo: ${state.settings.range}.`);
+    });
+
+    // toggles
+    settingsSchema.forEach(item=>{
+      const row = document.createElement("div");
+      row.className = "tog";
+      row.innerHTML = `
+        <div class="meta">
+          <b>${escapeHtml(item.title)}</b>
+          <small>${escapeHtml(item.desc)}</small>
+        </div>
+        <button class="switch" role="switch" aria-checked="false" type="button">
+          <span class="knob" aria-hidden="true"></span>
+        </button>
+      `;
+
+      const sw = $(".switch", row);
+      const setOn = (v)=>{
+        sw.classList.toggle("on", !!v);
+        sw.setAttribute("aria-checked", String(!!v));
+      };
+
+      if(item.key === "themeLight"){
+        setOn(state.settings.theme === "light");
+      } else {
+        setOn(!!state.settings[item.key]);
+      }
+
+      sw.addEventListener("click", ()=>{
+        if(item.key === "themeLight"){
+          state.settings.theme = (state.settings.theme === "light") ? "dark" : "light";
+          setOn(state.settings.theme === "light");
+          saveState();
+          applyTheme();
+          announce("info","Tema cambiado", state.settings.theme === "light" ? "Modo claro activado." : "Modo oscuro activado.");
+          return;
+        }
+
+        state.settings[item.key] = !state.settings[item.key];
+        setOn(state.settings[item.key]);
+        saveState();
+        renderTask();
+        announce("info", "Opción actualizada", `${item.title}: ${state.settings[item.key] ? "activado" : "desactivado"}.`);
+      });
+
+      sw.addEventListener("keydown", (e)=>{
+        if(e.key==="Enter" || e.key===" "){
+          e.preventDefault();
+          sw.click();
+        }
+      });
+
+      into.appendChild(row);
+    });
+  }
+
+  // ---------- Task rendering ----------
+  function ensureTask(){
+    if(!state.lastTask) state.lastTask = makeTask();
+  }
+
+  function makeHintForNumber(n){
+    const subtract = (n%10===4||n%10===9||Math.floor(n/10)%10===4||Math.floor(n/10)%10===9||Math.floor(n/100)%10===4||Math.floor(n/100)%10===9);
+    return subtract ? "Busca una resta: IV, IX, XL, XC, CD o CM." : "Ordena de mayor a menor.";
+  }
+  function makeHintForRoman(r){
+    const s=r.toUpperCase();
+    const pairs=[];
+    if(s.includes("IV")) pairs.push("IV=4");
+    if(s.includes("IX")) pairs.push("IX=9");
+    if(s.includes("XL")) pairs.push("XL=40");
+    if(s.includes("XC")) pairs.push("XC=90");
+    if(s.includes("CD")) pairs.push("CD=400");
+    if(s.includes("CM")) pairs.push("CM=900");
+    return pairs.length ? `Detecta restas: ${pairs.join(", ")}.` : "Suma los símbolos (no hay restas).";
+  }
+
+  function renderValuesHelper(container){
+    if(!state.settings.showValues) return;
+    const box = document.createElement("div");
+    box.className = "prompt";
+    box.innerHTML = `
+      <p class="kicker">Valores de referencia</p>
+      <p class="kicker" style="margin-top:-2px">Apoyo visual: intenta mirar cada vez menos.</p>
+      <div class="valuesGrid" aria-label="Valores romanos">
+        ${
+          [["I",1],["V",5],["X",10],["L",50],["C",100],["D",500],["M",1000]]
+          .map(([s,n])=>`
+            <div class="valChip">
+              <div class="sym">${s}</div>
+              <div class="num">${n}</div>
+            </div>
+          `).join("")
+        }
+      </div>
+    `;
+    container.appendChild(box);
+  }
+
+  function renderTask(){
+    ensureTask();
+    const t = state.lastTask;
+    const hintsOn = !!state.settings.hints;
+    const strict = !!state.settings.strictRoman;
+
+    if(state.mode==="a2r"){
+      taskHint.textContent = hintsOn ? "Convierte el número a romano. (Pista breve opcional)" : "Convierte el número a romano.";
+    } else if(state.mode==="r2a"){
+      taskHint.textContent = hintsOn ? "Convierte el número romano a árabe. (Pista breve opcional)" : "Convierte el número romano a árabe.";
+    } else {
+      taskHint.textContent = "Elige una opción. Feedback claro y sin ruido visual.";
+    }
+
+    taskArea.innerHTML = "";
+    renderValuesHelper(taskArea);
+
+    const prompt = document.createElement("div");
+    prompt.className = "prompt";
+
+    let primaryLine="", secondary="", hintLine="";
+    if(t.kind==="a2r"){
+      primaryLine = `${t.n} <span class="soft">→ ¿en romano?</span>`;
+      secondary = "Escribe usando I, V, X, L, C, D, M.";
+      hintLine = makeHintForNumber(t.n);
+    } else if(t.kind==="r2a"){
+      primaryLine = `${t.roman} <span class="soft">→ ¿en árabe?</span>`;
+      secondary = strict ? "Solo se aceptan romanos correctos." : "Se aceptan romanos aunque no estén perfectos.";
+      hintLine = makeHintForRoman(t.roman);
+    } else {
+      if(t.sub==="a2r"){
+        primaryLine = `${t.n} <span class="soft">→ elige su romano</span>`;
+        secondary = "Selecciona la opción correcta.";
+        hintLine = makeHintForNumber(t.n);
+      } else {
+        primaryLine = `${t.roman} <span class="soft">→ elige su árabe</span>`;
+        secondary = "Selecciona la opción correcta.";
+        hintLine = makeHintForRoman(t.roman);
+      }
+    }
+
+    prompt.innerHTML = `
+      <p class="kicker">Reto</p>
+      <p class="big">${primaryLine}</p>
+      <p class="kicker" style="margin-top:10px">${escapeHtml(secondary)}</p>
+      ${hintsOn ? `<p class="kicker" style="margin-top:10px; color: rgba(255,255,255,.58)">💡 ${escapeHtml(hintLine)}</p>` : ""}
+    `;
+    taskArea.appendChild(prompt);
+
+    if(t.kind==="test"){ renderTest(t); return; }
+    renderInputMode(t);
+  }
+
+  function renderInputMode(t){
+    const strict = !!state.settings.strictRoman;
+
+    const wrap = document.createElement("div");
+    wrap.className = "inputs";
+    wrap.innerHTML = `
+      <div class="field">
+        <label>${t.kind==="a2r" ? "Tu respuesta (romano)" : "Tu respuesta (árabe)"}</label>
+        <input class="input" id="answer" inputmode="${t.kind==="a2r" ? "text" : "numeric"}"
+               autocomplete="off" spellcheck="false" placeholder="${t.kind==="a2r" ? "Ej.: XLIV" : "Ej.: 44"}" />
+      </div>
+      <div class="field">
+        <label>Comprobación</label>
+        <input class="input" id="checkView" disabled value="Listo para comprobar" style="font-family: var(--sans); letter-spacing:.2px" />
+      </div>
+    `;
+    taskArea.appendChild(wrap);
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    actions.innerHTML = `
+      <button class="btn primary" id="checkBtn" disabled>Comprobar</button>
+      <button class="btn secondary" id="newBtn">Nuevo reto</button>
+      <button class="btn ghost" id="showBtn">Ver solución</button>
+    `;
+    taskArea.appendChild(actions);
+
+    const answer = $("#answer", taskArea);
+    const checkView = $("#checkView", taskArea);
+    const checkBtn = $("#checkBtn", taskArea);
+
+    answer.addEventListener("input", ()=>{
+      const v = answer.value.trim();
+      checkBtn.disabled = !v;
+      checkView.value = !v ? "Listo para comprobar" : (t.kind==="a2r" ? ("Romano: " + v.toUpperCase()) : ("Árabe: " + v));
+    });
+
+    answer.addEventListener("keydown", (e)=>{
+      if(e.key==="Enter" && !checkBtn.disabled) checkBtn.click();
+    });
+
+    function nextTask(){
+      state.lastTask = makeTask();
+      saveState();
+      renderTask();
+      setTimeout(()=>$("#answer", taskArea)?.focus(), 50);
+    }
+
+    checkBtn.addEventListener("click", ()=>{
+      const v = answer.value.trim();
+      if(!v) return;
+
+      if(t.kind==="a2r"){
+        const userRoman = v.toUpperCase().replaceAll(" ", "");
+        const val = fromRoman(userRoman, strict);
+        if(val === null){
+          announce("bad", "Formato no válido", strict
+            ? "Ejemplos correctos: IV, IX, XL, XC, CD, CM."
+            : "Usa solo I V X L C D M.");
+          logAttempt({
+            when: new Date().toISOString(),
+            student: getStudentName(),
+            mode: "Árabe→Romano",
+            question: String(t.n),
+            expected: t.roman,
+            answer: userRoman,
+            correct: false
+          });
+          onWrong();
+          return;
+        }
+        if(userRoman === t.roman){
+          announce("ok", "¡Correcto!", `${t.n} se escribe ${t.roman}.`);
+          logAttempt({
+            when: new Date().toISOString(),
+            student: getStudentName(),
+            mode: "Árabe→Romano",
+            question: String(t.n),
+            expected: t.roman,
+            answer: userRoman,
+            correct: true
+          });
+          onCorrect();
+          if(state.settings.autoNext) nextTask();
+        } else {
+          announce("bad", "Casi", `La respuesta correcta era ${t.roman}.`);
+          logAttempt({
+            when: new Date().toISOString(),
+            student: getStudentName(),
+            mode: "Árabe→Romano",
+            question: String(t.n),
+            expected: t.roman,
+            answer: userRoman,
+            correct: false
+          });
+          onWrong();
+        }
+      } else {
+        const num = parseInt(v, 10);
+        if(!Number.isFinite(num)){
+          announce("bad", "Número no válido", "Escribe un número entero (ej.: 44).");
+          logAttempt({
+            when: new Date().toISOString(),
+            student: getStudentName(),
+            mode: "Romano→Árabe",
+            question: t.roman,
+            expected: String(t.n),
+            answer: String(v),
+            correct: false
+          });
+          onWrong();
+          return;
+        }
+        if(num === t.n){
+          announce("ok", "¡Correcto!", `${t.roman} vale ${t.n}.`);
+          logAttempt({
+            when: new Date().toISOString(),
+            student: getStudentName(),
+            mode: "Romano→Árabe",
+            question: t.roman,
+            expected: String(t.n),
+            answer: String(num),
+            correct: true
+          });
+          onCorrect();
+          if(state.settings.autoNext) nextTask();
+        } else {
+          announce("bad", "No coincide", `La respuesta correcta era ${t.n}.`);
+          logAttempt({
+            when: new Date().toISOString(),
+            student: getStudentName(),
+            mode: "Romano→Árabe",
+            question: t.roman,
+            expected: String(t.n),
+            answer: String(num),
+            correct: false
+          });
+          onWrong();
+        }
+      }
+      saveState();
+    });
+
+    $("#newBtn", taskArea).addEventListener("click", ()=>{
+      announce("info", "Nuevo reto", "Cambiaste de ejercicio.");
+      nextTask();
+    });
+
+    $("#showBtn", taskArea).addEventListener("click", ()=>{
+      announce("info", "Solución", t.kind==="a2r" ? `${t.n} → ${t.roman}` : `${t.roman} → ${t.n}`);
+    });
+
+    setTimeout(()=>answer.focus(), 40);
+  }
+
+  function renderTest(t){
+    const sub = t.sub;
+
+    const choices = document.createElement("div");
+    choices.style.display = "grid";
+    choices.style.gridTemplateColumns = "1fr 1fr";
+    choices.style.gap = "10px";
+
+    const items = (sub==="a2r")
+      ? t.options.map(num => ({val: toRoman(num), correct: num===t.n}))
+      : t.options.map(num => ({val: String(num), correct: num===t.n}));
+
+    const correctIdx = items.findIndex(i=>i.correct);
+    let locked=false;
+
+    items.forEach((it,i)=>{
+      const b = document.createElement("button");
+      b.type="button";
+      b.className="btn secondary";
+      b.style.justifyContent="space-between";
+      b.style.width="100%";
+      b.innerHTML = `<span style="opacity:.85;font-family:var(--mono)">${String.fromCharCode(65+i)}</span><span style="font-family:var(--mono);letter-spacing:.5px">${escapeHtml(it.val)}</span>`;
+      b.addEventListener("click", ()=>{
+        if(locked) return;
+        locked=true;
+
+        const btns=[...choices.querySelectorAll("button")];
+        btns.forEach((x,idx)=>{
+          x.disabled=true;
+          x.style.opacity = ".9";
+          if(idx===correctIdx) x.style.borderColor = "rgba(126,240,176,.28)";
+        });
+
+        const question = sub==="a2r" ? String(t.n) : t.roman;
+        const expected = sub==="a2r" ? t.roman : String(t.n);
+        const answer = items[i].val;
+
+        if(i===correctIdx){
+          announce("ok", "¡Correcto!", sub==="a2r" ? `${t.n} → ${t.roman}` : `${t.roman} → ${t.n}`);
+          logAttempt({
+            when: new Date().toISOString(),
+            student: getStudentName(),
+            mode: "Test",
+            question,
+            expected,
+            answer,
+            correct: true
+          });
+          onCorrect();
+          if(state.settings.autoNext) setTimeout(()=>{ state.lastTask=makeTask(); saveState(); renderTask(); }, 650);
+        } else {
+          announce("bad", "No es esa", `La correcta era la opción ${String.fromCharCode(65+correctIdx)}.`);
+          logAttempt({
+            when: new Date().toISOString(),
+            student: getStudentName(),
+            mode: "Test",
+            question,
+            expected,
+            answer,
+            correct: false
+          });
+          onWrong();
+        }
+        saveState();
+      });
+      choices.appendChild(b);
+    });
+
+    taskArea.appendChild(choices);
+
+    const actions = document.createElement("div");
+    actions.className="actions";
+    actions.innerHTML=`
+      <button class="btn secondary" id="newBtn">Nuevo reto</button>
+      <button class="btn ghost" id="showBtn">Ver solución</button>
+    `;
+    taskArea.appendChild(actions);
+
+    $("#newBtn", taskArea).addEventListener("click", ()=>{
+      announce("info","Nuevo reto","Cambiaste de ejercicio.");
+      state.lastTask = makeTask(); saveState(); renderTask();
+    });
+
+    $("#showBtn", taskArea).addEventListener("click", ()=>{
+      announce("info","Solución", sub==="a2r" ? `${t.n} → ${t.roman}` : `${t.roman} → ${t.n}`);
+    });
+
+    const mq = window.matchMedia("(max-width: 980px)");
+    const apply = ()=> choices.style.gridTemplateColumns = mq.matches ? "1fr" : "1fr 1fr";
+    apply(); mq.addEventListener?.("change", apply);
+  }
+
+  // ---------- Tabs ----------
+  function setMode(m){
+    state.mode = m;
+    state.lastTask = makeTask();
+    saveState();
+    $$(".tab").forEach(t=>{
+      t.classList.toggle("active", t.dataset.mode===m);
+      t.setAttribute("aria-selected", String(t.dataset.mode===m));
+    });
+    renderTask();
+    announce("info","Modo cambiado", m==="a2r"?"Árabe → Romano":m==="r2a"?"Romano → Árabe":"Test (4 opciones)");
+  }
+
+  $$(".tab").forEach(tab=>{
+    tab.addEventListener("click", ()=>setMode(tab.dataset.mode));
+    tab.addEventListener("keydown", (e)=>{
+      if(e.key==="Enter" || e.key===" "){ e.preventDefault(); tab.click(); }
+    });
+  });
+
+  // ---------- Reset ----------
+  function resetAll(){
+    if(!confirm("¿Reiniciar puntos, nivel y racha?")) return;
+    state = structuredClone(defaultState);
+    saveState();
+    applyTheme();
+    updateHeader();
+    renderSettings(document.getElementById("settingsStack"));
+    renderSettings(document.getElementById("settingsStackMobile"));
+    state.lastTask = makeTask(); saveState();
+    renderTask();
+    feedbackStack.innerHTML="";
+    announce("info","Reiniciado","Empezamos de nuevo con calma.");
+  }
+  document.getElementById("resetAll").addEventListener("click", resetAll);
+  document.getElementById("resetAllMobile").addEventListener("click", resetAll);
+
+  // ---------- Mobile sheet ----------
+  const sheet = document.getElementById("sheet");
+  document.getElementById("openSettings")?.addEventListener("click", ()=>{
+    sheet.classList.add("show");
+    sheet.setAttribute("aria-hidden","false");
+  });
+  document.getElementById("closeSettings")?.addEventListener("click", ()=>{
+    sheet.classList.remove("show");
+    sheet.setAttribute("aria-hidden","true");
+  });
+  sheet.addEventListener("click", (e)=>{
+    if(e.target===sheet){
+      sheet.classList.remove("show");
+      sheet.setAttribute("aria-hidden","true");
+    }
+  });
+
+  // ---------- PDF ----------
+  function downloadReportAsPDF(){
+    const student = getStudentName();
+    const rows = attempts.filter(a => (a.student || "Sin nombre") === student);
+
+    const correct = rows.filter(r => r.correct).length;
+    const wrong = rows.length - correct;
+
+    const htmlRows = rows.map((r, idx) => `
+      <tr>
+        <td>${idx+1}</td>
+        <td>${new Date(r.when).toLocaleString()}</td>
+        <td>${escapeHtml(r.mode)}</td>
+        <td style="font-family: ui-monospace, Menlo, Consolas, monospace;">${escapeHtml(r.question)}</td>
+        <td style="font-family: ui-monospace, Menlo, Consolas, monospace;">${escapeHtml(r.answer)}</td>
+        <td style="font-family: ui-monospace, Menlo, Consolas, monospace;">${escapeHtml(r.expected)}</td>
+        <td style="font-weight:800;">${r.correct ? "✅ Correcta" : "⛔ Incorrecta"}</td>
+      </tr>
+    `).join("");
+
+    const w = window.open("", "_blank");
+    if(!w){
+      announce("bad","Ventana bloqueada","Permite ventanas emergentes para descargar el informe.");
+      return;
+    }
+
+    w.document.open();
+    w.document.write(`
+    <!doctype html>
+    <html lang="es">
+    <head>
+      <meta charset="utf-8">
+      <title>Informe - ${escapeHtml(student)}</title>
+      <style>
+        body{font-family: system-ui, Segoe UI, Roboto, Arial; margin:24px; color:#111;}
+        h1{margin:0 0 8px; font-size:20px;}
+        .meta{color:#444; margin:0 0 16px; font-size:13px;}
+        .badges{display:flex; gap:10px; margin:14px 0 18px; flex-wrap:wrap;}
+        .b{border:1px solid #ddd; border-radius:999px; padding:8px 12px; font-size:13px;}
+        table{width:100%; border-collapse:collapse; font-size:12px;}
+        th,td{border:1px solid #e5e5e5; padding:8px; vertical-align:top;}
+        th{background:#f3f3f3; text-align:left;}
+        @media print{ body{margin:10mm;} }
+      </style>
+    </head>
+    <body>
+      <h1>Informe de Números Romanos</h1>
+      <p class="meta"><b>Alumno:</b> ${escapeHtml(student)} · <b>Fecha:</b> ${new Date().toLocaleString()}</p>
+
+      <div class="badges">
+        <div class="b"><b>Total:</b> ${rows.length}</div>
+        <div class="b"><b>Correctas:</b> ${correct}</div>
+        <div class="b"><b>Incorrectas:</b> ${wrong}</div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Fecha</th><th>Modo</th><th>Pregunta</th><th>Respuesta</th><th>Correcta</th><th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${htmlRows || `<tr><td colspan="7">No hay respuestas registradas para este alumno.</td></tr>`}
+        </tbody>
+      </table>
+    </body>
+    </html>
+    `);
+    w.document.close();
+
+    setTimeout(()=> { w.focus(); w.print(); }, 300);
+  }
+  document.getElementById("downloadPdfBtn")?.addEventListener("click", downloadReportAsPDF);
+
+  // ---------- Init ----------
+  function init(){
+    applyTheme();
+    renderSettings(document.getElementById("settingsStack"));
+    renderSettings(document.getElementById("settingsStackMobile"));
+    if(!state.lastTask) state.lastTask = makeTask();
+    updateHeader();
+    renderTask();
+  }
+  init();
+
+})();
+</script>
+</body>
+</html>
